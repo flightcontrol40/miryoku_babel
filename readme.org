@@ -870,6 +870,7 @@ for tap_row, hold_row in zip(alphas_table + thumbs_table, hold_table):
           code = 'U_LMT(' + str(hold) + ', ' + code + ')'
         else:
           code = 'U_RMT(' + str(hold) + ', ' + code + ')'
+        current_key_idx += 1
       elif target == 'kmonad':
         code = 'U_MT(' + code + ', ' + str(hold) + ')'
       elif target == 'svg':
