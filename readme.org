@@ -851,6 +851,7 @@ Produce base layer from separate alphas, thumbs, and hold tables.
 #+NAME: table-layer-taphold
 #+BEGIN_SRC python :session :var alphas_table=colemakdh :var thumbs_table=thumbs :var hold_table=hold :tangle no :results verbatim
 results = ''
+current_key_idx = 0
 for tap_row, hold_row in zip(alphas_table + thumbs_table, hold_table):
   for tap, hold in zip(tap_row, hold_row):
     code = tap
@@ -865,7 +866,10 @@ for tap_row, hold_row in zip(alphas_table + thumbs_table, hold_table):
         code = wrap_basic(code)
         code = str(hold) + '_T(' + code + ')'
       elif target == 'zmk':
-        code = 'U_MT(' + str(hold) + ', ' + code + ')'
+        if current_key_idx % 8 < 4:
+          code = 'U_LMT(' + str(hold) + ', ' + code + ')'
+        else:
+          code = 'U_RMT(' + str(hold) + ', ' + code + ')'
       elif target == 'kmonad':
         code = 'U_MT(' + code + ', ' + str(hold) + ')'
       elif target == 'svg':
